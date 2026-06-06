@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TST Messier Predictor Pro — IOAA Olympiad Guide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -39,7 +39,7 @@
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Outfit', sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
@@ -70,7 +70,7 @@ nav {
   height: 62px;
 }
 .nav-logo {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Outfit', sans-serif; font-weight: 600;
   font-size: 1.3rem; font-weight: 600; letter-spacing: 0.02em;
   color: var(--gold2);
   display: flex; align-items: center; gap: 10px;
@@ -84,7 +84,7 @@ nav {
 }
 .nav-links a:hover { color: var(--text); background: var(--bg3); }
 .nav-badge {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Fira Code', monospace;
   font-size: 10px; color: var(--tier1);
   border: 1px solid var(--tier1b); border-radius: 4px;
   padding: 4px 10px; background: var(--tier1bg);
@@ -100,7 +100,7 @@ nav {
   text-align: center;
 }
 .hero-eyebrow {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Fira Code', monospace;
   font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
   color: var(--gold); margin-bottom: 22px;
   display: flex; align-items: center; justify-content: center; gap: 12px;
@@ -110,11 +110,11 @@ nav {
   opacity: .3;
 }
 .hero h1 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(3rem, 8vw, 6rem); font-weight: 300; line-height: 1.05;
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(2.2rem, 6vw, 4.2rem); font-weight: 600; line-height: 1.1;
   color: #fff; margin-bottom: 10px;
 }
-.hero h1 em { font-style: italic; color: var(--gold2); }
+.hero h1 em { font-style: normal; font-weight: 300; color: var(--gold2); }
 .hero-sub {
   font-size: 14px; color: var(--muted); line-height: 1.8;
   max-width: 540px; margin: 20px auto 36px;
@@ -132,13 +132,13 @@ nav {
 
 /* ── SECTION LABEL ── */
 .sec-label {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Fira Code', monospace;
   font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
   color: var(--gold); margin-bottom: 8px;
 }
 .sec-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2.2rem; font-weight: 400; color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 2rem; font-weight: 600; color: #fff;
   margin-bottom: 6px;
 }
 .sec-desc { font-size: 13px; color: var(--muted); line-height: 1.7; max-width: 600px; }
@@ -155,7 +155,7 @@ nav {
   text-align: center;
 }
 .stat-num {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Fira Code', monospace;
   font-size: 2.4rem; font-weight: 400; line-height: 1; margin-bottom: 6px;
 }
 .stat-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
@@ -188,7 +188,7 @@ nav {
 .search-wrap input {
   background: var(--bg3); border: 1px solid var(--border2);
   border-radius: 8px; padding: 8px 12px 8px 34px;
-  font-family: 'Syne', sans-serif; font-size: 13px; color: var(--text);
+  font-family: 'Outfit', sans-serif; font-size: 13px; color: var(--text);
   outline: none; width: 260px; transition: border-color .2s;
 }
 .search-wrap input:focus { border-color: var(--gold); }
@@ -204,11 +204,11 @@ nav {
 }
 .tier-icon { font-size: 22px; }
 .tier-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.9rem; font-weight: 400; color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.6rem; font-weight: 700; color: #fff;
 }
 .tier-count {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Fira Code', monospace;
   font-size: 11px; padding: 3px 10px; border-radius: 20px;
   font-weight: 400; margin-left: 4px;
 }
@@ -251,11 +251,11 @@ nav {
 .card-body { padding: 18px 18px 20px; }
 .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
 .card-id {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Fira Code', monospace;
   font-size: 1.15rem; font-weight: 500; color: #fff; line-height: 1;
 }
 .card-mag {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Fira Code', monospace;
   font-size: 10px; color: var(--muted); margin-top: 2px;
 }
 .card-prio {
@@ -267,8 +267,8 @@ nav {
 .prio-low { background: var(--tier3bg); color: var(--tier3); border: 1px solid var(--tier3b); }
 
 .card-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.3rem; font-weight: 400; color: #fff; margin-bottom: 4px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.05rem; font-weight: 600; color: #fff; margin-bottom: 4px;
 }
 .card-type { font-size: 11px; color: var(--muted); margin-bottom: 14px; }
 .card-meta {
@@ -276,7 +276,7 @@ nav {
   padding-top: 14px; border-top: 1px solid var(--border);
 }
 .meta-item { font-size: 11px; }
-.meta-label { color: var(--dim); letter-spacing: 0.06em; text-transform: uppercase; font-size: 9px; margin-bottom: 2px; font-family: 'JetBrains Mono', monospace; }
+.meta-label { color: var(--dim); letter-spacing: 0.06em; text-transform: uppercase; font-size: 9px; margin-bottom: 2px; font-family: 'Fira Code', monospace; }
 .meta-val { color: var(--text); font-weight: 500; }
 
 .card-hint {
@@ -317,12 +317,12 @@ nav {
 .modal-body { padding: 28px 32px 36px; }
 .modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
 .modal-title {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Fira Code', monospace;
   font-size: 1rem; color: var(--gold); margin-bottom: 6px;
 }
 .modal-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2.4rem; font-weight: 300; color: #fff; line-height: 1.1;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.9rem; font-weight: 600; color: #fff; line-height: 1.2;
 }
 .modal-close {
   background: var(--bg3); border: 1px solid var(--border2);
@@ -336,12 +336,12 @@ nav {
   background: var(--bg3); border: 1px solid var(--border);
   border-radius: 10px; padding: 12px 14px;
 }
-.chip-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); margin-bottom: 5px; }
+.chip-label { font-family: 'Fira Code', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); margin-bottom: 5px; }
 .chip-val { font-size: 13px; font-weight: 600; color: var(--text); }
 .modal-block {
   border-radius: 10px; padding: 16px 18px; margin-bottom: 14px;
 }
-.modal-block-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dim); margin-bottom: 8px; }
+.modal-block-label { font-family: 'Fira Code', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--dim); margin-bottom: 8px; }
 .modal-block-text { font-size: 14px; line-height: 1.75; color: var(--text); }
 .mb-find { background: rgba(201,168,76,0.07); border: 1px solid rgba(201,168,76,0.2); }
 .mb-why  { background: var(--bg3); border-left: 3px solid var(--gold); padding-left: 18px; border-radius: 0 10px 10px 0; }
@@ -358,7 +358,7 @@ footer {
   border-top: 1px solid var(--border); margin-top: 100px;
   padding: 40px; text-align: center;
   font-size: 12px; color: var(--muted);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Fira Code', monospace;
 }
 
 /* ── RESPONSIVE ── */
@@ -522,4 +522,7 @@ footer {
 </main>
 
 <!-- MODAL -->
-<div class="modal
+<div class="modal-bg" id="modalBg" onclick="bgClose(event)">
+  <div class="modal" id="modal">
+    <div id="modal-img-area"></div>
+    <div class="modal-
