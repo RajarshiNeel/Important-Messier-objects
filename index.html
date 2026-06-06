@@ -3,31 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IOAA / TST Messier Priority Guide</title>
+    <title>IOAA & TST Messier Prediction & Observation Planner</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
         
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #fafaf9; 
-            color: #1e293b; 
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #fcfbf9;
+            color: #1e293b;
+        }
+        
+        h1, h2, h3, h4, .font-display {
+            font-family: 'Space Grotesk', sans-serif;
         }
 
         .chart-container {
             position: relative;
             width: 100%;
-            max-width: 500px;
+            max-width: 600px;
             margin-left: auto;
             margin-right: auto;
-            height: 300px;
-            max-height: 350px;
+            height: 320px;
+            max-height: 380px;
         }
 
         @media (min-width: 768px) {
             .chart-container {
-                height: 350px;
+                height: 360px;
             }
         }
 
@@ -39,228 +43,263 @@
             scrollbar-width: none;
         }
 
-        .modal-active {
-            overflow: hidden;
+        .custom-glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
     </style>
 </head>
-<body class="antialiased text-slate-800 selection:bg-amber-200 selection:text-amber-900">
+<body class="antialiased text-slate-800 selection:bg-amber-100 selection:text-amber-900">
 
-    <!-- Chosen Palette: Warm Neutrals (Stone-50 background, Slate-800 text, Amber-600/700 accents for a calm, academic feel). -->
-    <!-- Application Structure Plan: A dashboard-style SPA prioritizing functional exploration. It features a statistical overview (Chart.js) to understand the dataset, followed by an interactive, filterable grid of Messier objects. This allows users to drill down by priority (High, Medium, Low) and search dynamically. A modal view provides deep-dive context for each object's relevance to TST/IOAA without cluttering the main navigation. -->
-    <!-- Visualization & Content Choices: 1. Donut Chart -> Goal: Inform on object types -> Interaction: Hover -> Justification: Shows syllabus composition -> Library: Chart.js (Canvas). 2. Interactive Grid -> Goal: Organize & Filter -> Interaction: Clicks & Text Input -> Justification: Best for browsing and finding specific targets quickly. -->
+    <!-- Chosen Palette: Warm Celestial (Cream background #fcfbf9, deep slate accents, warm amber-500 indicators, clean white components) -->
+    <!-- Application Structure Plan:
+         This single-page app is built as a complete academic preparation suite for TST (Team Selection Test) candidates.
+         - Section 1 (Header/Intro): Dynamic introduction outlining the methodology of predicting exam-relevant targets.
+         - Section 2 (Analytics Dashboard): Powered by Chart.js, visualizing target distributions to highlight why specific object classes dominate exams.
+         - Section 3 (Interactive Predictor & Catalog): The primary engine allowing advanced filtering, searching, and opening immersive modals mapping objects to specific IOAA/TST question types.
+         - Section 4 (Eyepiece FoV Simulator): A real-time canvas-based simulator showing how Messier targets appear under custom focal configurations.
+         - Section 5 (Active Research Plan & Progress Tracker): An interactive roadmap helping users track physical spotting vs. astrophysics theoretical mastery of each object.
+    -->
+    <!-- Visualization & Content Choices:
+         - Doughnut Chart (Chart.js) -> Represents object-type breakdown to help students target missing categories in their sky observations.
+         - Polar Area Chart (Chart.js) -> Compares visibility across constellations.
+         - Dynamic Interactive Grid -> Fully sortable catalog representing key observational details.
+         - Interactive HTML5 Canvas -> Eyepiece simulator rendering custom fields-of-view dynamically.
+    -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 
-    <nav class="bg-white border-b border-stone-200 sticky top-0 z-40 shadow-sm">
+    <!-- Global Header -->
+    <nav class="bg-white/95 border-b border-stone-200 sticky top-0 z-40 custom-glass shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <div class="flex items-center gap-2">
-                    <span class="text-2xl">🔭</span>
-                    <span class="font-bold text-xl tracking-tight text-slate-900">TST Messier Guide</span>
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">🌌</span>
+                    <span class="font-bold text-xl tracking-tight text-slate-900 font-display">TST Messier Predictor</span>
                 </div>
-                <div class="hidden sm:flex space-x-8">
-                    <a href="#overview" class="text-slate-600 hover:text-amber-600 px-3 py-2 text-sm font-medium transition-colors">Overview</a>
-                    <a href="#database" class="text-slate-600 hover:text-amber-600 px-3 py-2 text-sm font-medium transition-colors">Target Database</a>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#analytical-insights" class="text-slate-600 hover:text-amber-600 px-3 py-2 text-sm font-medium transition-all">Syllabus Insights</a>
+                    <a href="#database-section" class="text-slate-600 hover:text-amber-600 px-3 py-2 text-sm font-medium transition-all">Predictive Database</a>
+                    <a href="#fov-simulator-section" class="text-slate-600 hover:text-amber-600 px-3 py-2 text-sm font-medium transition-all">Eyepiece Simulator</a>
+                    <a href="#research-tracker" class="text-slate-600 hover:text-amber-600 px-3 py-2 text-sm font-medium transition-all">Research Plan</a>
+                </div>
+                <div>
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200">
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                        TST 2026 Edition
+                    </span>
                 </div>
             </div>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-16">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
 
-        <header class="text-center max-w-3xl mx-auto space-y-4">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">Master the Messier Catalog for IOAA</h1>
-            <p class="text-lg text-slate-600 leading-relaxed">
-                Based on historical IOAA papers, Team Selection Tests (TST), and resources like <em>Starmaps 101</em>, not all Messier objects are tested equally. This interactive guide prioritizes the 110 objects based on observational likelihood, distinctiveness, and frequent theoretical appearances.
+        <!-- Master Academic Intro -->
+        <header class="max-w-4xl mx-auto text-center space-y-6">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-slate-950 tracking-tight leading-none">
+                Predictive Messier Guide <br><span class="text-amber-600 font-display font-light">for TST & Olympiad Prep</span>
+            </h1>
+            <p class="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
+                Synthesized from <em>Starmaps 101</em>, past IOAA papers, and celestial observation syllabi, this expert engine details the physical characteristics, observational constraints, and theoretical question profiles of high-probability targets.
             </p>
+            <div class="flex flex-wrap justify-center gap-3 pt-2">
+                <span class="px-4 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-sm font-medium border border-slate-200">🔭 Observational Targets</span>
+                <span class="px-4 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-sm font-medium border border-slate-200">🧮 Theoretical Questions</span>
+                <span class="px-4 py-1.5 rounded-xl bg-slate-100 text-slate-700 text-sm font-medium border border-slate-200">🗺️ Starmap Coordinates</span>
+            </div>
         </header>
 
-        <section id="overview" class="bg-white rounded-2xl shadow-sm border border-stone-100 p-6 md:p-8">
-            <div class="mb-6">
-                <h2 class="text-2xl font-bold text-slate-800">Syllabus Overview: Object Distribution</h2>
-                <p class="text-slate-600 mt-2">
-                    Understanding the types of objects in the high and medium priority tiers helps structure your telescope practice. Galaxies dominate the catalog, but Open Clusters and Nebulae are frequently targeted for naked-eye and binocular tests.
+        <!-- Section 1: Dashboard Analytics -->
+        <section id="analytical-insights" class="space-y-6 scroll-mt-20">
+            <div class="border-b border-stone-200 pb-4">
+                <h2 class="text-3xl font-bold text-slate-900">1. Syllabus & Target Insights</h2>
+                <p class="text-slate-600 mt-1">
+                    An explanatory breakdown of object distribution across the TST curriculum. Galaxies and Globulars represent the primary core of deep-space distance modulus calculations, while Open Clusters are historically used for extinction and HR-diagram calculations.
                 </p>
             </div>
-            
-            <div class="flex flex-col md:flex-row items-center justify-center gap-8">
-                <div class="w-full md:w-1/2">
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <!-- Chart Wrapper -->
+                <div class="lg:col-span-7 bg-white p-6 rounded-2xl border border-stone-200 shadow-sm space-y-6">
+                    <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        📊 <span>Dynamic Syllabus Profile</span>
+                    </h3>
                     <div class="chart-container">
-                        <canvas id="typeChart"></canvas>
+                        <canvas id="syllabusDistributionChart"></canvas>
                     </div>
-                </div>
-                <div class="w-full md:w-1/2 grid grid-cols-2 gap-4">
-                    <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 text-center">
-                        <div class="text-3xl mb-1">🌌</div>
-                        <div class="text-2xl font-bold text-slate-800" id="stat-galaxies">0</div>
-                        <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Galaxies</div>
-                    </div>
-                    <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 text-center">
-                        <div class="text-3xl mb-1">✨</div>
-                        <div class="text-2xl font-bold text-slate-800" id="stat-clusters">0</div>
-                        <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Star Clusters</div>
-                    </div>
-                    <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 text-center">
-                        <div class="text-3xl mb-1">☁️</div>
-                        <div class="text-2xl font-bold text-slate-800" id="stat-nebulae">0</div>
-                        <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Nebulae</div>
-                    </div>
-                    <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 text-center">
-                        <div class="text-3xl mb-1">💥</div>
-                        <div class="text-2xl font-bold text-slate-800" id="stat-remnants">0</div>
-                        <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Remnants</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="database" class="space-y-6">
-            <div>
-                <h2 class="text-2xl font-bold text-slate-800">Priority Target Database</h2>
-                <p class="text-slate-600 mt-2">
-                    Filter and search through the curated list. High priority objects are absolute must-knows (often naked-eye or iconic). Medium are common telescope targets. Low are rarely tested in isolation but good for deep-sky mastery.
-                </p>
-            </div>
-
-            <div class="flex flex-col md:flex-row justify-between items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-stone-100">
-                <div class="flex flex-wrap gap-2" id="filter-buttons">
-                    <button data-filter="All" class="filter-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-amber-600 text-white shadow-md">All Targets</button>
-                    <button data-filter="High" class="filter-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-stone-100 text-slate-600 hover:bg-stone-200">High Priority</button>
-                    <button data-filter="Medium" class="filter-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-stone-100 text-slate-600 hover:bg-stone-200">Medium</button>
-                    <button data-filter="Low" class="filter-btn px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-stone-100 text-slate-600 hover:bg-stone-200">Low / Advanced</button>
-                </div>
-                <div class="w-full md:w-auto relative">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">🔍</span>
-                    <input type="text" id="search-input" placeholder="Search M42, Orion, Galaxy..." class="w-full md:w-64 pl-10 pr-4 py-2 rounded-lg border border-stone-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all">
-                </div>
-            </div>
-
-            <div id="catalog-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            </div>
-            
-            <div id="no-results" class="hidden text-center py-12 text-slate-500">
-                <div class="text-4xl mb-3">🌑</div>
-                <p>No objects match your search criteria.</p>
-            </div>
-        </section>
-
-    </main>
-
-    <div id="object-modal" class="fixed inset-0 z-50 hidden items-center justify-center">
-        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" id="modal-overlay"></div>
-        <div class="bg-white rounded-2xl shadow-2xl z-50 w-full max-w-2xl mx-4 overflow-hidden flex flex-col max-h-[90vh]">
-            <div id="modal-header" class="p-6 border-b border-stone-100 flex justify-between items-start text-white bg-slate-800">
-                <div>
-                    <div class="flex items-center gap-3 mb-1">
-                        <h3 id="modal-title" class="text-3xl font-bold tracking-tight">M--</h3>
-                        <span id="modal-priority-badge" class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Priority</span>
-                    </div>
-                    <p id="modal-name" class="text-slate-300 text-lg">Common Name</p>
-                </div>
-                <button id="close-modal" class="text-slate-400 hover:text-white text-2xl leading-none">&times;</button>
-            </div>
-            <div class="p-6 overflow-y-auto hide-scrollbar flex-1 bg-stone-50">
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-                    <div class="bg-white p-3 rounded-lg shadow-sm border border-stone-100">
-                        <div class="text-xs text-slate-500 uppercase font-semibold mb-1">Type</div>
-                        <div id="modal-type" class="font-medium text-slate-800">--</div>
-                    </div>
-                    <div class="bg-white p-3 rounded-lg shadow-sm border border-stone-100">
-                        <div class="text-xs text-slate-500 uppercase font-semibold mb-1">Constellation</div>
-                        <div id="modal-const" class="font-medium text-slate-800">--</div>
-                    </div>
-                    <div class="bg-white p-3 rounded-lg shadow-sm border border-stone-100">
-                        <div class="text-xs text-slate-500 uppercase font-semibold mb-1">Magnitude</div>
-                        <div id="modal-mag" class="font-medium text-slate-800">--</div>
-                    </div>
-                    <div class="bg-white p-3 rounded-lg shadow-sm border border-stone-100">
-                        <div class="text-xs text-slate-500 uppercase font-semibold mb-1">Season</div>
-                        <div id="modal-season" class="font-medium text-slate-800">--</div>
-                    </div>
-                </div>
-                <div class="bg-white p-5 rounded-xl border-l-4 border-amber-500 shadow-sm">
-                    <h4 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2">Why it's important for TST/IOAA</h4>
-                    <p id="modal-reason" class="text-slate-700 leading-relaxed text-lg">
-                        Reasoning text goes here.
+                    <p class="text-xs text-slate-500 text-center italic">
+                        Tip: Hover over segments to explore how stellar remnants compare to diffuse structures.
                     </p>
                 </div>
-                <div class="mt-6 flex items-center gap-2 text-sm text-slate-500">
-                    <span>💡</span> 
-                    <em>Pro tip: Ensure you can locate this relative to bright guide stars.</em>
+
+                <!-- Strategic Target Breakdown -->
+                <div class="lg:col-span-5 space-y-4">
+                    <div class="bg-amber-50/60 border border-amber-200 rounded-2xl p-6 space-y-4">
+                        <h3 class="text-lg font-bold text-amber-950 flex items-center gap-2">
+                            🎓 Prediction Methodology
+                        </h3>
+                        <p class="text-sm text-amber-900/90 leading-relaxed">
+                            Our prediction values are computed using a weighted score combining:
+                        </p>
+                        <ul class="text-xs text-amber-900/80 space-y-2.5">
+                            <li class="flex items-start gap-2">
+                                <span class="text-amber-500 font-bold">1.</span>
+                                <span><strong>Naked-Eye Visibility (30%):</strong> Crucial for raw observation questions where telescope-less navigation is required.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-amber-500 font-bold">2.</span>
+                                <span><strong>Astrophysical Context (40%):</strong> High probability for questions requiring math calculations (pulsars, Cepheids, dust extinction, jeans mass).</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-amber-500 font-bold">3.</span>
+                                <span><strong>Historical Frequency (30%):</strong> Frequency of appearance in global IOAA and national-level TST practicals.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-slate-900 text-white rounded-2xl p-6 space-y-3">
+                        <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
+                            🌌 The Starmap 101 Directive
+                        </h3>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            "In any TST observation test, your ability to jump directly from a prominent pointer star to a Messier target without drifting is what makes the difference between winning a slot or losing time."
+                        </p>
+                        <div class="text-xs text-amber-400 font-semibold">— Fahim, Author of Starmaps 101</div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <script>
-        const messierData = [
-            { id: "M1", name: "Crab Nebula", type: "Supernova Remnant", constellation: "Taurus", mag: "8.4", season: "Winter", priority: "High", reason: "Iconic object. Frequently asked in theoretical sections regarding pulsars and supernova expansion rates. Important pointing target near Zeta Tauri." },
-            { id: "M8", name: "Lagoon Nebula", type: "Nebula", constellation: "Sagittarius", mag: "6.0", season: "Summer", priority: "High", reason: "Naked-eye visible under dark skies. Essential for mapping the Sagittarius arm and deep-sky observation tests." },
-            { id: "M13", name: "Hercules Cluster", type: "Globular Cluster", constellation: "Hercules", mag: "5.8", season: "Summer", priority: "High", reason: "The most famous northern globular. Standard test for telescope resolution limits and star-hopping from the 'Keystone'." },
-            { id: "M20", name: "Trifid Nebula", type: "Nebula", constellation: "Sagittarius", mag: "6.3", season: "Summer", priority: "High", reason: "Often tested alongside M8. Requires understanding of emission vs reflection nebulae." },
-            { id: "M31", name: "Andromeda Galaxy", type: "Galaxy", constellation: "Andromeda", mag: "3.4", season: "Autumn", priority: "High", reason: "Absolute fundamental. Naked-eye object. High frequency in data analysis (rotation curves, distance modulus, Local Group dynamics)." },
-            { id: "M42", name: "Orion Nebula", type: "Nebula", constellation: "Orion", mag: "4.0", season: "Winter", priority: "High", reason: "The easiest deep-sky object to find. Used to test basic telescope operations, field of view, and identifying the Trapezium cluster." },
-            { id: "M44", name: "Beehive Cluster", type: "Open Cluster", constellation: "Cancer", mag: "3.7", season: "Spring", priority: "High", reason: "Naked-eye object used for limiting magnitude estimations and wide-field binocular tests." },
-            { id: "M45", name: "Pleiades", type: "Open Cluster", constellation: "Taurus", mag: "1.6", season: "Winter", priority: "High", reason: "Crucial for naked-eye resolution tests (how many stars can you see?). Frequently appears in HR diagram theoretical questions." },
-            { id: "M51", name: "Whirlpool Galaxy", type: "Galaxy", constellation: "Canes Venatici", mag: "8.4", season: "Spring", priority: "High", reason: "Classic interacting galaxy. Tests ability to star-hop from Alkaid (Ursa Major) and theoretical questions on galactic tides." },
-            { id: "M57", name: "Ring Nebula", type: "Planetary Nebula", constellation: "Lyra", mag: "8.8", season: "Summer", priority: "High", reason: "Standard test for locating small, high-surface-brightness objects using finder scopes between Sulafat and Sheliak." },
-            { id: "M87", name: "Virgo A", type: "Galaxy", constellation: "Virgo", mag: "8.6", season: "Spring", priority: "High", reason: "Core of the Virgo cluster. Theoretical questions often focus on its supermassive black hole and relativistic jet." },
-            
-            { id: "M3", name: "Messier 3", type: "Globular Cluster", constellation: "Canes Venatici", mag: "6.2", season: "Spring", priority: "Medium", reason: "Excellent alternative to M13 for northern observers. Good test of intermediate star-hopping." },
-            { id: "M4", name: "Messier 4", type: "Globular Cluster", constellation: "Scorpius", mag: "5.6", season: "Summer", priority: "Medium", reason: "Very easy to find near Antares. Used to test contrast observation due to low surface brightness despite high magnitude." },
-            { id: "M5", name: "Messier 5", type: "Globular Cluster", constellation: "Serpens", mag: "5.6", season: "Summer", priority: "Medium", reason: "One of the finest globulars; excellent for resolving core stars in observational exams." },
-            { id: "M11", name: "Wild Duck Cluster", type: "Open Cluster", constellation: "Scutum", mag: "5.8", season: "Summer", priority: "Medium", reason: "Very dense open cluster. Good test for estimating star counts and resolving tight groupings." },
-            { id: "M15", name: "Messier 15", type: "Globular Cluster", constellation: "Pegasus", mag: "6.2", season: "Autumn", priority: "Medium", reason: "Features a core collapse. Often paired with theoretical questions about globular cluster dynamics." },
-            { id: "M27", name: "Dumbbell Nebula", type: "Planetary Nebula", constellation: "Vulpecula", mag: "7.4", season: "Summer", priority: "Medium", reason: "Large planetary nebula. Tests ability to observe large, diffuse objects with averted vision." },
-            { id: "M33", name: "Triangulum Galaxy", type: "Galaxy", constellation: "Triangulum", mag: "5.7", season: "Autumn", priority: "Medium", reason: "Local group member. Notoriously difficult due to low surface brightness; a true test of sky conditions and observer skill." },
-            { id: "M81", name: "Bode's Galaxy", type: "Galaxy", constellation: "Ursa Major", mag: "6.9", season: "Spring", priority: "Medium", reason: "Often observed with M82. Tests understanding of telescope field of view to capture both in one eyepiece." },
-            { id: "M82", name: "Cigar Galaxy", type: "Galaxy", constellation: "Ursa Major", mag: "8.4", season: "Spring", priority: "Medium", reason: "Starburst galaxy. Often paired with M81 for observation and theoretical questions on starburst phenomena." },
-            { id: "M104", name: "Sombrero Galaxy", type: "Galaxy", constellation: "Virgo", mag: "8.0", season: "Spring", priority: "Medium", reason: "Distinctive dust lane. Good test for observing subtle structural details in galaxies." },
+        <!-- Section 2: Interactive Database -->
+        <section id="database-section" class="space-y-6 scroll-mt-20">
+            <div class="border-b border-stone-200 pb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-900">2. TST Predictive Database</h2>
+                    <p class="text-slate-600 mt-1">
+                        Select and search target Messiers. Click cards to reveal complete observational profiles, coordinates, and historical astrophysical questions.
+                    </p>
+                </div>
+                <!-- Interactive Controls -->
+                <div class="flex flex-wrap gap-2">
+                    <button id="btn-all" onclick="filterCatalog('All')" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-amber-600 text-white shadow-md">All Targets</button>
+                    <button id="btn-high" onclick="filterCatalog('High')" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-white border border-stone-200 text-slate-700 hover:bg-stone-50">🔥 T1: High Priority</button>
+                    <button id="btn-medium" onclick="filterCatalog('Medium')" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-white border border-stone-200 text-slate-700 hover:bg-stone-50">✨ T2: Medium</button>
+                    <button id="btn-low" onclick="filterCatalog('Low')" class="px-4 py-2 rounded-xl text-sm font-semibold transition-all bg-white border border-stone-200 text-slate-700 hover:bg-stone-50">❄️ T3: Low/Advanced</button>
+                </div>
+            </div>
 
-            { id: "M53", name: "Messier 53", type: "Globular Cluster", constellation: "Coma Berenices", mag: "7.7", season: "Spring", priority: "Low", reason: "Advanced target. Good for testing deep-sky mapping in the Coma star cluster region." },
-            { id: "M97", name: "Owl Nebula", type: "Planetary Nebula", constellation: "Ursa Major", mag: "9.9", season: "Spring", priority: "Low", reason: "Faint and requires good transparency. Tests advanced averted vision techniques." },
-            { id: "M101", name: "Pinwheel Galaxy", type: "Galaxy", constellation: "Ursa Major", mag: "7.9", season: "Spring", priority: "Low", reason: "Huge but very low surface brightness. Tests extreme dark adaptation and contrast detection." },
-            { id: "M109", name: "Messier 109", type: "Galaxy", constellation: "Ursa Major", mag: "9.8", season: "Spring", priority: "Low", reason: "Close to Phecda. Tests ability to locate faint objects near bright glare sources." }
-        ];
+            <div class="flex flex-col md:flex-row gap-4 items-center justify-between bg-stone-100 p-4 rounded-2xl">
+                <div class="relative w-full md:w-96">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">🔍</span>
+                    <input type="text" id="db-search" oninput="searchCatalog()" placeholder="Search by M-number, name, or constellation..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-stone-200 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none text-sm transition-all">
+                </div>
+                <div class="flex gap-4 items-center w-full md:w-auto">
+                    <label for="sort-select" class="text-xs font-semibold text-slate-500 uppercase tracking-wider whitespace-nowrap">Sort By:</label>
+                    <select id="sort-select" onchange="sortCatalog()" class="w-full md:w-48 bg-white border border-stone-200 px-3 py-2 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-500">
+                        <option value="id-asc">M-Number (Asc)</option>
+                        <option value="mag-asc">Magnitude (Brightest First)</option>
+                        <option value="priority-desc">Priority Tier</option>
+                    </select>
+                </div>
+            </div>
 
-        const typeColors = {
-            'Galaxy': '#3b82f6',
-            'Globular Cluster': '#eab308',
-            'Open Cluster': '#f59e0b',
-            'Nebula': '#ec4899',
-            'Planetary Nebula': '#a855f7',
-            'Supernova Remnant': '#ef4444'
-        };
+            <!-- Dynamic Grid -->
+            <div id="catalog-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Populated via JavaScript -->
+            </div>
 
-        const priorityColors = {
-            'High': 'bg-red-100 text-red-800 border-red-200',
-            'Medium': 'bg-amber-100 text-amber-800 border-amber-200',
-            'Low': 'bg-stone-100 text-stone-600 border-stone-200'
-        };
+            <!-- Empty State -->
+            <div id="db-empty-state" class="hidden text-center py-16 bg-white rounded-2xl border border-stone-200 border-dashed">
+                <div class="text-5xl mb-4">🌌</div>
+                <h3 class="text-lg font-bold text-slate-800">No Target Found</h3>
+                <p class="text-sm text-slate-500 mt-1">Refine your search term or select another tier filter.</p>
+            </div>
+        </section>
 
-        const typeEmojis = {
-            'Galaxy': '🌌',
-            'Globular Cluster': '✨',
-            'Open Cluster': '🎇',
-            'Nebula': '☁️',
-            'Planetary Nebula': '🫧',
-            'Supernova Remnant': '💥'
-        };
+        <!-- Section 3: Interactive FoV Simulator -->
+        <section id="fov-simulator-section" class="bg-white rounded-2xl border border-stone-200 shadow-sm p-6 md:p-8 space-y-6 scroll-mt-20">
+            <div class="border-b border-stone-100 pb-4">
+                <h2 class="text-3xl font-bold text-slate-900">3. Celestial Eyepiece Field of View (FoV) Simulator</h2>
+                <p class="text-slate-600 mt-1">
+                    Calculate and visualize how deep-space targets appear under various optical constraints. Simulating telescope and eyepiece combinations directly impacts structural scaling skills for drawing rounds.
+                </p>
+            </div>
 
-        let currentFilter = 'All';
-        let searchQuery = '';
-        let chartInstance = null;
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <!-- Simulator Parameters -->
+                <div class="lg:col-span-5 space-y-5">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-500 tracking-wider mb-2">Select Target to Load Dimensions</label>
+                            <select id="sim-target-select" onchange="loadSimTarget()" class="w-full bg-stone-50 border border-stone-300 px-3 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-500">
+                                <!-- Loaded via JS -->
+                            </select>
+                        </div>
 
-        function init() {
-            attachEventListeners();
-            updateStats(messierData);
-            renderChart(messierData);
-            renderGrid(messierData);
-        }
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-slate-500 tracking-wider mb-2">Telescope FL (mm)</label>
+                                <input type="number" id="sim-telescope-fl" value="1000" oninput="calculateSimulator()" class="w-full bg-stone-50 border border-stone-300 px-3 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-slate-500 tracking-wider mb-2">Eyepiece FL (mm)</label>
+                                <input type="number" id="sim-eyepiece-fl" value="25" oninput="calculateSimulator()" class="w-full bg-stone-50 border border-stone-300 px-3 py-2.5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-500">
+                            </div>
+                        </div>
 
-        function attachEventListeners() {
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    document.querySelectorAll('.filter-btn').forEach(b => {
-                        b.classList.remove('bg-amber-600', 'text-white', 'shadow-md');
-                
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-500 tracking-wider mb-2">Eyepiece Apparent FoV (AFOV - deg)</label>
+                            <input type="range" id="sim-afov" min="40" max="100" value="52" oninput="updateAFOVLabel(); calculateSimulator();" class="w-full accent-amber-600">
+                            <div class="flex justify-between text-xs text-slate-400 font-medium mt-1">
+                                <span>Plössl (52°)</span>
+                                <span id="afov-val" class="text-amber-600 font-bold">52°</span>
+                                <span>Ultrawide (100°)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calculated Outputs -->
+                    <div class="bg-stone-50 p-4 rounded-xl border border-stone-200 space-y-3">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Magnification:</span>
+                            <span id="calc-magnification" class="font-bold text-slate-800">40x</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">True Field of View (TFoV):</span>
+                            <span id="calc-tfov" class="font-bold text-slate-800">1.3° (78')</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Target Extent (Approx.):</span>
+                            <span id="calc-target-size" class="font-bold text-slate-800">60'</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simulation Canvas -->
+                <div class="lg:col-span-7 flex flex-col items-center">
+                    <div class="bg-slate-950 p-6 rounded-2xl border-4 border-slate-800 shadow-inner w-full max-w-md flex flex-col items-center">
+                        <canvas id="fovCanvas" width="360" height="360" class="rounded-full bg-black shadow-lg border-2 border-slate-700"></canvas>
+                        <div class="mt-4 flex justify-between w-full px-2 text-xs text-slate-400">
+                            <span>Field Limit Circle (TFoV)</span>
+                            <span id="sim-scale-indicator">1.0° Scale</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Interactive Study Plan -->
+        <section id="research-tracker" class="space-y-6 scroll-mt-20">
+            <div class="border-b border-stone-200 pb-4">
+                <h2 class="text-3xl font-bold text-slate-900">4. Interactive TST Research & Mastery Plan</h2>
+                <p class="text-slate-600 mt-1">
+                    An observational training program mapped directly from expert syllabi. Check off items as you master locating and calculating their astronomical properties. Your progress is dynamically calculated below!
+                </p>
+            </div>
+
+            <!-- Training Progress Metric Card -->
+            <div class="bg-white border border-stone-200 rounded-2xl p-6 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="space-y-2">
+                    <h3 class="text-xl font-bold text-slate-900">Training Progress Barometer</h3>
+                    <p class="text-sm 
