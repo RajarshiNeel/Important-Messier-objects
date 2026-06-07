@@ -20,15 +20,15 @@
   --muted:   #5a6180;
   --dim:     #323650;
 
-  --tier1:   #e8735a;   /* warm coral-red */
+  --tier1:   #e8735a;
   --tier1bg: rgba(232,115,90,0.08);
   --tier1b:  rgba(232,115,90,0.22);
 
-  --tier2:   #7eb8c9;   /* steel-blue */
+  --tier2:   #7eb8c9;
   --tier2bg: rgba(126,184,201,0.08);
   --tier2b:  rgba(126,184,201,0.22);
 
-  --tier3:   #8fa684;   /* sage green */
+  --tier3:   #8fa684;
   --tier3bg: rgba(143,166,132,0.08);
   --tier3b:  rgba(143,166,132,0.22);
 
@@ -46,7 +46,6 @@ body {
   overflow-x: hidden;
 }
 
-/* ── Noise grain overlay ── */
 body::before {
   content: '';
   position: fixed; inset: 0; z-index: 0;
@@ -54,12 +53,11 @@ body::before {
   pointer-events: none;
 }
 
-/* ── Starfield canvas ── */
 #stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 
 main { position: relative; z-index: 1; }
 
-/* ── NAV ── */
+/* NAV */
 nav {
   position: sticky; top: 0; z-index: 100;
   background: rgba(7,8,13,0.88);
@@ -71,7 +69,7 @@ nav {
 }
 .nav-logo {
   font-family: 'Outfit', sans-serif; font-weight: 600;
-  font-size: 1.3rem; font-weight: 600; letter-spacing: 0.02em;
+  font-size: 1.3rem; letter-spacing: 0.02em;
   color: var(--gold2);
   display: flex; align-items: center; gap: 10px;
 }
@@ -93,7 +91,7 @@ nav {
 .dot-pulse { width: 5px; height: 5px; border-radius: 50%; background: var(--tier1); animation: blink 2s infinite; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
 
-/* ── HERO ── */
+/* HERO */
 .hero {
   padding: 100px 40px 80px;
   max-width: 960px; margin: 0 auto;
@@ -126,11 +124,11 @@ nav {
   border: 1px solid var(--border2); color: var(--muted); background: var(--bg3);
 }
 
-/* ── SECTION WRAPPER ── */
+/* SECTION WRAPPER */
 .section { padding: 60px 40px; max-width: 1320px; margin: 0 auto; }
 .section-rule { height: 1px; background: linear-gradient(90deg, transparent, var(--border2), transparent); margin: 0 40px; }
 
-/* ── SECTION LABEL ── */
+/* SECTION LABEL */
 .sec-label {
   font-family: 'Fira Code', monospace;
   font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
@@ -143,7 +141,7 @@ nav {
 }
 .sec-desc { font-size: 13px; color: var(--muted); line-height: 1.7; max-width: 600px; }
 
-/* ── ANALYTICS GRID ── */
+/* ANALYTICS GRID */
 .analytics-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -167,7 +165,7 @@ nav {
 .chart-card h3 { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 18px; }
 .chart-wrap { position: relative; height: 260px; }
 
-/* ── FILTER BAR ── */
+/* FILTER BAR */
 .filter-bar {
   display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
   justify-content: space-between;
@@ -195,7 +193,7 @@ nav {
 .search-wrap input::placeholder { color: var(--muted); }
 .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 14px; pointer-events: none; }
 
-/* ── TIER SECTIONS ── */
+/* TIER SECTIONS */
 .tier-section { margin-top: 60px; }
 .tier-header {
   display: flex; align-items: center; gap: 16px;
@@ -221,7 +219,7 @@ nav {
 .t3 .tier-name { color: var(--tier3); }
 .t3 .tier-count { background: var(--tier3bg); color: var(--tier3); border: 1px solid var(--tier3b); }
 
-/* ── OBJECT CARDS ── */
+/* OBJECT CARDS */
 .obj-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -289,7 +287,7 @@ nav {
 }
 .obj-card:hover .card-hint { opacity: 1; }
 
-/* ── MODAL ── */
+/* MODAL */
 .modal-bg {
   position: fixed; inset: 0; z-index: 200;
   background: rgba(0,0,0,.85); backdrop-filter: blur(12px);
@@ -302,9 +300,32 @@ nav {
   border-radius: 20px; width: 100%; max-width: 780px;
   max-height: 90vh; overflow-y: auto;
   box-shadow: 0 50px 100px rgba(0,0,0,.9);
+  animation: modalIn .3s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.92) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
 }
 .modal::-webkit-scrollbar { width: 4px; }
 .modal::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+.img-shimmer {
+  width: 100%; height: 320px; border-radius: 18px 18px 0 0;
+  background: linear-gradient(90deg, var(--bg3) 25%, var(--border) 50%, var(--bg3) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+.modal-img-wrap { position: relative; }
+.modal-img-badge {
+  position: absolute; bottom: 16px; left: 16px;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px; padding: 6px 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.modal-img-badge-id { font-family: 'Fira Code', monospace; font-size: 14px; font-weight: 500; color: #fff; }
+.modal-img-badge-name { font-size: 12px; color: rgba(255,255,255,0.6); }
 
 .modal-img { width: 100%; height: 320px; object-fit: cover; border-radius: 18px 18px 0 0; display: block; }
 .modal-img-placeholder {
@@ -345,23 +366,33 @@ nav {
 .modal-block-text { font-size: 14px; line-height: 1.75; color: var(--text); }
 .mb-find { background: rgba(201,168,76,0.07); border: 1px solid rgba(201,168,76,0.2); }
 .mb-why  { background: var(--bg3); border-left: 3px solid var(--gold); padding-left: 18px; border-radius: 0 10px 10px 0; }
+.mb-phys { background: rgba(126,184,201,0.06); border: 1px solid rgba(126,184,201,0.18); }
 
-/* ── EMPTY STATE ── */
+/* LEGEND */
+#legend-list { display: flex; flex-direction: column; gap: 10px; }
+.legend-row { display: flex; align-items: center; gap: 10px; font-size: 12px; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.legend-name { color: var(--text); font-weight: 500; flex: 1; }
+.legend-pct { font-family: 'Fira Code', monospace; font-size: 11px; color: var(--muted); }
+
+/* EMPTY STATE */
 .empty {
   grid-column: 1/-1; text-align: center; padding: 60px;
   color: var(--muted); display: none;
 }
 .empty .empty-icon { font-size: 44px; margin-bottom: 12px; }
 
-/* ── FOOTER ── */
+/* FOOTER */
 footer {
   border-top: 1px solid var(--border); margin-top: 100px;
   padding: 40px; text-align: center;
   font-size: 12px; color: var(--muted);
   font-family: 'Fira Code', monospace;
 }
+footer a { color: var(--gold); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
 
-/* ── RESPONSIVE ── */
+/* RESPONSIVE */
 @media (max-width: 900px) {
   nav { padding: 0 20px; }
   .nav-links { display: none; }
@@ -382,7 +413,7 @@ footer {
   .tier-header { flex-wrap: wrap; }
 }
 
-/* ── FADE IN ── */
+/* FADE IN */
 .fade { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
 .fade.in { opacity: 1; transform: none; }
 </style>
@@ -398,8 +429,8 @@ footer {
     <a href="#analytics">Analytics</a>
     <a href="#catalog">Catalog</a>
     <a href="#tier1">Tier I</a>
-    <a href="#tier2">Tier II</a>
-    <a href="#tier3">Tier III</a>
+    <a href="#tier2-section">Tier II</a>
+    <a href="#tier3-section">Tier III</a>
   </div>
   <div class="nav-badge"><span class="dot-pulse"></span>IOAA / TST 2026</div>
 </nav>
@@ -442,7 +473,6 @@ footer {
       <div class="stat-label">Tier III · Elective</div>
     </div>
 
-    <!-- Donut chart -->
     <div class="chart-card">
       <h3>Object Type Breakdown</h3>
       <div class="chart-wrap"><canvas id="chartType"></canvas></div>
@@ -451,7 +481,6 @@ footer {
       <div id="legend-list"></div>
     </div>
 
-    <!-- Bar chart -->
     <div class="chart-card" style="grid-column:2/4">
       <h3>Tier Distribution by Object Type</h3>
       <div class="chart-wrap"><canvas id="chartBar"></canvas></div>
@@ -468,7 +497,6 @@ footer {
     <p class="sec-desc">Click any card to reveal full observational profiles, star-hopping instructions, and IOAA physics context. Filter by tier or search by name, number, or constellation.</p>
   </div>
 
-  <!-- Filter bar -->
   <div class="filter-bar fade">
     <div class="filter-left">
       <button class="fbtn active" data-f="All">All Targets</button>
@@ -494,35 +522,4 @@ footer {
     <div class="empty" id="empty1"><div class="empty-icon">🌑</div><p>No matches in this tier.</p></div>
   </div>
 
-  <!-- Tier II -->
-  <div class="tier-section t2 fade" id="tier2-section">
-    <div class="tier-header">
-      <span class="tier-icon">✨</span>
-      <span class="tier-name">Tier II</span>
-      <span class="tier-count" id="count2"></span>
-      <span class="tier-desc">Intermediate — common telescope targets and secondary theory questions. Strong candidates for national-level TST practicals.</span>
-    </div>
-    <div class="obj-grid" id="grid2"></div>
-    <div class="empty" id="empty2"><div class="empty-icon">🌑</div><p>No matches in this tier.</p></div>
-  </div>
-
-  <!-- Tier III -->
-  <div class="tier-section t3 fade" id="tier3-section">
-    <div class="tier-header">
-      <span class="tier-icon">❄️</span>
-      <span class="tier-name">Tier III</span>
-      <span class="tier-count" id="count3"></span>
-      <span class="tier-desc">Elective — rarely tested in isolation. Mastering these places you ahead of the curve in deep-sky completeness rounds.</span>
-    </div>
-    <div class="obj-grid" id="grid3"></div>
-    <div class="empty" id="empty3"><div class="empty-icon">🌑</div><p>No matches in this tier.</p></div>
-  </div>
-</section>
-
-</main>
-
-<!-- MODAL -->
-<div class="modal-bg" id="modalBg" onclick="bgClose(event)">
-  <div class="modal" id="modal">
-    <div id="modal-img-area"></div>
-    <div class="modal-
+  <!-- 
